@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink-50: #f5f7fa;
+  --color-ink-100: #eaeef3;
+  --color-ink-950: #05070c;
+  --color-ink-900: #0b0f19;
+  --color-ink-800: #131926;
+  --color-ink-700: #1b202a;
+  --color-ink-600: #2a3140;
+  --color-ink-500: #3d4557;
+
+  --color-brand-50: #e6f8fe;
+  --color-brand-100: #ccf1fd;
+  --color-brand-200: #99e3fb;
+  --color-brand-300: #5dd0f7;
+  --color-brand-400: #26bcf0;
+  --color-brand-500: #00aeef;
+  --color-brand-600: #0089bd;
+  --color-brand-700: #026f98;
+  --color-brand-800: #0a5978;
+  --color-brand-900: #0e4a64;
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+}
+
+/*
+ * Intro sequence (IntroLoader.jsx). Deliberately kept OUTSIDE the @theme
+ * block above: these are applied via raw inline `animation` strings, not
+ * Tailwind `animate-*` utility classes — and Tailwind v4 only keeps
+ * @keyframes declared inside @theme when a matching --animate-* token is
+ * referenced by a utility class it can see in a template scan. Without
+ * that, they get tree-shaken out of the build entirely. Plain top-level
+ * @keyframes like these are never stripped.
+ */
+@keyframes intro-logo-enter {
+  from { opacity: 0; transform: scale(0.92); filter: blur(6px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes intro-exit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.98); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink-800);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background-color: var(--color-brand-500);
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-500);
+  border-radius: 999px;
+}
+
+.clip-diagonal-r {
+  clip-path: polygon(0 0, 100% 0, 82% 100%, 0% 100%);
+}
+.clip-diagonal-l {
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.clip-parallelogram {
+  clip-path: polygon(18% 0, 100% 0, 82% 100%, 0% 100%);
+}
+
+.text-gradient {
+  background-image: linear-gradient(90deg, var(--color-brand-400), var(--color-brand-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * Single source of truth for every card title in the project.
+ * Extracted verbatim from the Industries page card (IndustryCard.jsx),
+ * which used inline Tailwind utilities: text-lg font-bold mb-2.
+ * Color is intentionally not included here — the source card title has
+ * no color of its own and inherits it from the card's text color, so
+ * every usage pairs .card-title with its own light/dark text color.
+ */
+.card-title {
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem; /* text-lg */
+  font-weight: 700; /* font-bold */
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+/*
+ * Single source of truth for page-width containers.
+ * .container-page: the wide layout container (navbar, sections, footer).
+ * .container-px: same responsive horizontal padding for narrower,
+ * prose-width containers (max-w-5xl/4xl/3xl/2xl) that keep their own max-width.
+ */
+.container-page,
+.container-px {
+  padding-inline: 16px;
+}
+@media (min-width: 640px) {
+  .container-page,
+  .container-px {
+    padding-inline: 18px;
+  }
+}
+@media (min-width: 1024px) {
+  .container-page,
+  .container-px {
+    padding-inline: 20px;
+  }
+}
+@media (min-width: 1280px) {
+  .container-page,
+  .container-px {
+    padding-inline: 24px;
+  }
+}
+.container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.section-pad {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+@media (min-width: 640px) {
+  .section-pad {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .section-pad {
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
+  }
+}
